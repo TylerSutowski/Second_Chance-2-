@@ -1,5 +1,5 @@
 import pygame as pg
-
+import requests
 import src.states.menu.menus as menus
 from .menus import StartMenu
 from .menus import UsernamePrompt
@@ -38,3 +38,12 @@ class TitleScreen(State):
             (self.screen.get_width() / 2, self.screen.get_height() - 100)
         )
         self.screen.blit(self.title_logo, (170, 150))
+
+    def tualert(self):
+        r = requests.get('https://www.reddit.com/r/Temple/comments/1rhzccn/places_hiring_around_philly/')
+        string = r.text
+        super().draw()
+        self.screen.blit(
+            pg.font.Font(None, 36).render(string, True, (255, 255, 255)), 
+            (self.screen.get_width() / 2, self.screen.get_height() - 100)
+        )
