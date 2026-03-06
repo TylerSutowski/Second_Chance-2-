@@ -1,5 +1,5 @@
 import pygame as pg
-import requests
+import webbrowser
 import random
 import src.states.menu.menus as menus
 from .menus import StartMenu
@@ -9,6 +9,12 @@ from ..state import State
 
 class TitleScreen(State):
     """State for the title screen."""
+  
+    
+
+
+
+
 
     def __init__(self):
         super().__init__("background.png")
@@ -33,27 +39,35 @@ class TitleScreen(State):
                     self.manager.set_state(StartMenu)
 
     def draw(self):
-        title_list = ["New in Temple News: Owls announce full "
-        "schedule for 2026 season", 
-                      "New in Temple News: Senior student activist "
-                      "faces federal charges",
-                      "New in Temple News: Student acts as ambassador "
-                      "for Urban Outfitters",
-                      "New in Temple News: Kenyatta focuses on "
-                      "affordability ahead of election", 
-                      "New in Temple News: High costs of living strain "
-                      "student lunch spending", 
-                      "New in Temple News: Philly style owner builds "
-                      "community through music"]
-        s = "hello"
+        link_color = (0, 0, 0)
+
+        title_list = ["Click Here for all the latest Temple U news!"]
+    
+        s = random.choice(title_list)
+   
+
         super().draw()
+        
+        rect = self.screen.blit(
+        pg.font.Font(None, 36).render(s, True, link_color, "white"),
+        (10, 10)
+        )
+
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+            if event.type == pg.MOUSEBUTTONDOWN:
+                pos = event.pos
+                if rect.collidepoint(pos):
+                    webbrowser.open("https://temple-news.com/")
+            if rect.collidepoint(pg.mouse.get_pos()):
+                link_color = (70, 29, 219)
+            else:
+                link_color = (0, 0, 0)
+
         self.screen.blit(
             pg.font.Font(None, 36).render("Press 'Enter' to start", True, "black"),
             (self.screen.get_width() / 2, self.screen.get_height() - 100)
-        )
-        self.screen.blit(
-        pg.font.Font(None, 36).render(random.choice(title_list), True, "black"),
-        (self.screen.get_width() / 20, self.screen.get_height() - 600)
         )
         self.screen.blit(self.title_logo, (170, 150))
 
