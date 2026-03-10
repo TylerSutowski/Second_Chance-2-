@@ -16,9 +16,11 @@ class archer(Enemy):
             speed=2,
             vertical_speed=0,
             gravity=0.5,
-            health=100,
-            max_health=100,
-            strength=20
+            # changed health from 100 to 130
+            health=130,
+            max_health=130,
+            # changed strength from 20 to 30
+            strength=30
         )
         range_attack = RangeAttack(self.rect.centerx + 10, self.rect.centery, self.direction, damage_value=10)
         attacks.add(range_attack)
