@@ -21,9 +21,11 @@ class RPS(Minigame):
         )
 
 
+        img = "rps.jpg"
         super().__init__(
             instructions,
-            img=None)
+            img=os.path.join("minigames", img)
+            )
 
         self.options = ["rock", "paper", "scissors"]
         self.player_choice = None
@@ -47,9 +49,9 @@ class RPS(Minigame):
                 if self.player_choice is not None:
                     self.computer_choice = random.choice(self.options)
                     self.determine_winner()
-                    self.finished = True
 
     def determine_winner(self):
+        # if tie, return and let player choose again
         if self.player_choice == self.computer_choice:
             self.results = f"It's a tie! Try again."
             self.player_choice = None
@@ -59,7 +61,31 @@ class RPS(Minigame):
         elif (self.player_choice == "rock" and self.computer_choice == "scissors") or \
              (self.player_choice == "paper" and self.computer_choice == "rock") or \
              (self.player_choice == "scissors" and self.computer_choice == "paper"):
-            print("You won!")
+            self.results = f"You won! The computer chose {self.computer_choice}."
+            self.won = True
 
         else:
             self.results = f"You lost!"
+            self.won = False
+        
+        self.finished = True
+
+    # update function displays the results of the game
+    def update(self, events):
+        super().update(events)
+
+        self.result_surface = self.get_text_surface(self.results, "white", 36)
+
+    # put user results in green text and enemy results in red text (add pics if done before 8 idk tho)
+    def draw(self):
+        super().draw()
+
+        if self.player_choice:
+            player_text = self.get_text_surface(f"You chose {self.player_choice}", "green", 24)
+
+            self.screen.blit(player_text, (250, 300))
+
+        if self.computer_choice:
+            computer_text = self.get_text_surface(f"Computer chose {self.computer_choice}", "red", 24)
+
+            self.screen.blit(computer_text, (250, 450))
