@@ -55,15 +55,11 @@ class RPS(Minigame):
             self.player_choice = None
             return
         
-        # fix this theres a bug
-        if self.player_choice == "rock" and self.computer_choice == "scissors":
-            self.results = f"You won!"
-        
-        if self.player_choice == "paper" and self.computer_choice == "rock":
-            self.results = f"You won!"
+        # new comparison statements for RPS
+        elif (self.player_choice == "rock" and self.computer_choice == "scissors") or \
+             (self.player_choice == "paper" and self.computer_choice == "rock") or \
+             (self.player_choice == "scissors" and self.computer_choice == "paper"):
+            print("You won!")
 
-        if self.player_choice == "scissors" and self.computer_choice == "paper":
-            self.results = f"You won!"
-            
         else:
             self.results = f"You lost!"
