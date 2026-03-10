@@ -11,9 +11,11 @@ class Eyeball(Enemy):
             speed=2,
             vertical_speed=0,
             gravity=0.5,
-            health=100,
-            max_health=100,
-            strength=20
+            # changed health from 100 to 130
+            health=130,
+            max_health=130,
+            # changed strength from 20 to 25
+            strength=25
         )
         self.health_bar_offset_x = (self.rect.width - self.health_bar_length) / 2
         self.health_bar_offset_y = self.rect.height / 2 - 30
