@@ -16,8 +16,9 @@ class RPS(Minigame):
 
     def __init__(self):
         instructions = (
-            "The goal of this minigame is to beat the computer at RPS. \n"
-            "The computer will secretly choose Rock, Paper, or Scissors, your goal is to win at RPS"
+            "The goal of this minigame is to beat the computer at Rock, Paper, Scissors. \n"
+            "Choose your move and the computer will randomly choose its move. \n"
+            "Are you ready?"
         )
 
 
@@ -69,6 +70,8 @@ class RPS(Minigame):
             self.won = False
         
         self.finished = True
+        # result stay on screen for debugging gotta make sure it works
+        self.result_timer = Timer(5000)
 
     # update function displays the results of the game
     def update(self, events):
@@ -76,16 +79,24 @@ class RPS(Minigame):
 
         self.result_surface = self.get_text_surface(self.results, "white", 36)
 
+
     # put user results in green text and enemy results in red text (add pics if done before 8 idk tho)
     def draw(self):
         super().draw()
+
+        # display instructions
+        instructions = self.get_text_surface(
+            "Press R for Rock, P for Paper, S for Scissors", "white", 24)
+        self.screen.blit(instructions, (250, 100))
 
         if self.player_choice:
             player_text = self.get_text_surface(f"You chose {self.player_choice}", "green", 24)
 
             self.screen.blit(player_text, (250, 300))
 
-        if self.computer_choice:
-            computer_text = self.get_text_surface(f"Computer chose {self.computer_choice}", "red", 24)
+            if self.computer_choice:
+                computer_text = self.get_text_surface(f"Computer chose {self.computer_choice}", "red", 24)
 
-            self.screen.blit(computer_text, (250, 450))
+                self.screen.blit(computer_text, (250, 450))
+
+        # self.screen.blit(self.result_surface, (250, 200))
