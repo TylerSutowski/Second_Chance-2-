@@ -11,9 +11,11 @@ class Skeleton(Enemy):
             speed=2,
             vertical_speed=0,
             gravity=0.5,
-            health=100,
-            max_health=100,
-            strength=25
+            # changed health from 100 to 130
+            health=130,
+            max_health=130,
+            # changed strength from 25 to 33
+            strength=33
         )
         self.health_bar_offset_x = (self.rect.width - self.health_bar_length) / 2
         self.health_bar_offset_y = self.rect.height / 2 - 35

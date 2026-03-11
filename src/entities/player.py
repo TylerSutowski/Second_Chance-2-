@@ -85,8 +85,8 @@ class Player(pg.sprite.Sprite):
 
         self.timer = Timer(start=True)
         self.last_health_increase_time = 0
-        self.health_duration = 3  # How often to increase HP in seconds
-        self.health_increase_amount = 10
+        self.health_duration = 4  # How often to increase HP in seconds
+        self.health_increase_amount = 5
 
         self.melee_attacks = pg.sprite.Group()  # Group for managing melee attack instances
         self.range_attacks = pg.sprite.Group()

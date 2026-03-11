@@ -100,3 +100,19 @@ class RPS(Minigame):
                 self.screen.blit(computer_text, (250, 450))
 
         # self.screen.blit(self.result_surface, (250, 200))
+        """A minigame to play RPS with the computer"""
+
+def __init__(self):
+        instructions = (
+            "The goal of this minigame is to beat the computer at RPS. "
+            "The computer will secretly choose 1, 2 or 3, your goal is to win at RPS"
+        )
+
+
+        img = "RPSbg.jpg"
+
+
+        super().__init__(
+            instructions,
+            img=os.path.join("minigames", img)
+        )
