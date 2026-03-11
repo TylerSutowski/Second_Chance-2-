@@ -12,7 +12,7 @@ class Memory(Minigame):
     def __init__(self):
         instructions = (
             "The goal of this minigame is to memorize the 5-character "
-            "string that will appear and then disappear after 5 seconds. "
+            "string. The characters of the string will appear one by one and then disappear after 1 second each. "
             "A text box will pop up and you will have to enter a 5-character "
             "string into it. You win the game if the 5-character "
             "string you entered matches the 5-character string that appeared "
@@ -32,12 +32,14 @@ class Memory(Minigame):
         self.input_rect = pg.Rect(200, 282, 200, 36)  # Adjusted position to center vertically
         self.input_active = False
         self.font = pg.font.SysFont(None, 36)
-        self.generated_text_surf = None
         self.display_time = 10  # Time to display the generated string in seconds
         self.display_timer = 0  # Timer to track the display time
         self.is_string_currently_displayed = False
         self.was_string_displayed_yet = False
         self.clock = pg.time.Clock()
+        self.char_positions = []
+        self.chars_shown = 0
+        self.char_timer = 0
 
     def handle_events(self, events):
         super().handle_events(events)  # To enable pause menu access
@@ -52,26 +54,34 @@ class Memory(Minigame):
 
     def update(self, events):
         super().update(events)
-        if not self.was_string_displayed_yet:
+        if not self.was_string_displayed_yet and self.countdown_over:
             self.generated_string = self.generate_random_string()
-            self.generated_text_surf = self.font.render(self.generated_string, True, (255, 255, 255))
             self.was_string_displayed_yet = True
             self.is_string_currently_displayed = True
-            self.display_timer = self.display_time * 1000  # Convert seconds to milliseconds
-        elif self.was_string_displayed_yet:
-            self.display_timer -= self.clock.tick()  # Update the timer
-            if self.display_timer <= 0:
-                self.generated_text_surf = None
-                self.is_string_currently_displayed = False
-                self.input_active = True
+            #generate a random position for each character
+            self.char_positions = [
+                (random.randint(50, self.screen.get_width() - 50),
+                random.randint(50, self.screen.get_height() - 50))
+                for i in range(5)
+            ]
+            self.chars_shown = -1
+            self.next_char_time = pg.time.get_ticks() + 1000 #1 second for each character
+
+        elif self.is_string_currently_displayed:
+            if pg.time.get_ticks() >= self.next_char_time:
+                self.chars_shown += 1
+                self.next_char_time = pg.time.get_ticks() + 1000
+                if self.chars_shown >= 5:
+                    self.is_string_currently_displayed = False
+                    self.input_active = True
 
     def draw(self):
         super().draw()  # Draw minigame background
 
-        # Render and display generated string
-        if self.generated_text_surf and (self.timer.get_time_milliseconds() > 0):
-            self.screen.blit(self.generated_text_surf,
-                             ((self.screen.get_width() - self.generated_text_surf.get_width()) / 2, 200))
+        # Render and display generated string characters one by one
+        if self.is_string_currently_displayed and 0 <= self.chars_shown < 5:
+            char_surf = self.font.render(self.generated_string[self.chars_shown], True, (255, 255, 255))
+            self.screen.blit(char_surf, self.char_positions[self.chars_shown])
 
         # Draw input box if the generated string has disappeared
         if not self.is_string_currently_displayed and self.was_string_displayed_yet:
