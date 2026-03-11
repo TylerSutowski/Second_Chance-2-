@@ -39,7 +39,7 @@ class TitleScreen(State):
                     self.manager.set_state(StartMenu)
 
     def draw(self):
-        link_color = (0, 0, 0)
+        link_color = ("red")
 
         title_list = ["Click Here for all the latest Temple U news!"]
     
@@ -63,7 +63,7 @@ class TitleScreen(State):
             if rect.collidepoint(pg.mouse.get_pos()):
                 link_color = (70, 29, 219)
             else:
-                link_color = (0, 0, 0)
+                link_color = ("red")
 
         self.screen.blit(
             pg.font.Font(None, 36).render("Press 'Enter' to start", True, "black"),
