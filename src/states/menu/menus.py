@@ -20,6 +20,8 @@ from src.utils.leaderboard import LeaderboardManager
 from src.utils.timer import Timer
 from ..levels.level1_1 import Level1_1
 
+from src.states.minigames.rockpaperscissors import RPS
+
 # Global variable for volume
 volume = 0.5  # Initial volume value, you can set it to any value you desire
 
@@ -133,6 +135,8 @@ class StartMenu(State):
         self.menu.add.button('Tracking', self.manager.set_state, FlyingGreen)
         self.menu.add.button('Calculate', self.manager.set_state, Calculate)
         self.menu.add.button('ButtonMemory', self.manager.set_state, ButtonMemory)
+
+        self.menu.add.button('Rock Paper Scissors', self.manager.set_state, RPS)
 
         self.menu.add.button('Back', self.main_menu)
 
